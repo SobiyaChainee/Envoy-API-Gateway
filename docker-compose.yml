@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  envoygateway:
+        build: Envoy/
+        ports:
+          - "9902:9902"
+          - "10000:10000"         
+        volumes:
+          - ./Envoy/envoy.yaml:/etc/envoy/envoy.yaml
+
+  todoapi:
+    image: ${DOCKER_REGISTRY-}todoapi
+    build:
+      context: .
+      dockerfile: ToDoApi/Dockerfile
+    ports:
+      - '8082:80'
+
+
+  webapp1:
+    image: ${DOCKER_REGISTRY-}webapp1
+    build:
+      context: .
+      dockerfile: WebApp1/Dockerfile
+    ports:
+      - '8084:80'
